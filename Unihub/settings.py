@@ -11,10 +11,14 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-
+import os
+import sys
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+AUTH_USER_MODEL = "core.User"
+
+sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -36,6 +40,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.admin',
+    
+    # custom apps
+    'apps.accounts',
+    'apps.home',
+    'apps.main',
+    'apps.core',
 ]
 
 MIDDLEWARE = [
@@ -53,8 +64,11 @@ ROOT_URLCONF = 'Unihub.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [
+            os.path.join(BASE_DIR, 'apps', 'accounts', 'templates'),  # Look here for login.html
+            os.path.join(BASE_DIR, 'apps', 'home', 'templates'),  # Look here for home templates
+            os.path.join(BASE_DIR, 'apps', 'main', 'templates'),  # Look here for dashboard templates
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -79,7 +93,7 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': 'db',  # Name of the database service in docker-compose
+        'HOST': 'postgres_db',  # Name of the database service in docker-compose
         'PORT': '5432',
     }
 }

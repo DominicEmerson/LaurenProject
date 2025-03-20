@@ -1,3 +1,4 @@
 django
 psycopg2-binary  # PostgreSQL adapter for Django
 gunicorn  # Optional: For production WSGI server
+Pillow
